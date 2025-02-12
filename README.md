@@ -2,7 +2,7 @@
 本项目为即时通讯app开发教学视频项目，通过实战演示结合人工智能写代码的方式，训练新的编程方式，以适应新的人工智能时代。
 
 ## 教学大纲
-[项目意义](https://www.bilibili.com/video/BV1L2NzeCEdZ?vd_source=09e984b9d215841cd344a501edf8c297)
+[项目介绍与项目意义](https://www.bilibili.com/video/BV1L2NzeCEdZ?vd_source=09e984b9d215841cd344a501edf8c297)
 
 [躬身入局，创建项目(一) 第一天课程介绍](https://www.bilibili.com/video/BV1cdKGe1Et7?vd_source=09e984b9d215841cd344a501edf8c297)
 
