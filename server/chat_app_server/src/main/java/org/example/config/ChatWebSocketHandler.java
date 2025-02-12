@@ -24,6 +24,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         for (WebSocketSession webSocketSession : SESSIONS.values()) {
             if (webSocketSession.isOpen()) {
                 webSocketSession.sendMessage(new TextMessage("server:"+payload));
+
             }
         }
     }
