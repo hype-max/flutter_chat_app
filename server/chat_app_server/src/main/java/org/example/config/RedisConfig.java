@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 @Configuration
 public class RedisConfig {
@@ -17,11 +18,12 @@ public class RedisConfig {
         template.setConnectionFactory(connectionFactory);
         
         // 使用Jackson2JsonRedisSerializer作为默认序列化器
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        ObjectMapper mapper = JsonMapper.builder()
+            .findAndAddModules()
+            .build();
         
-        // 配置ObjectMapper
-        ObjectMapper objectMapper = new ObjectMapper();
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = 
+            new Jackson2JsonRedisSerializer<>(mapper, Object.class);
         
         // key采用String序列化方式
         template.setKeySerializer(new StringRedisSerializer());

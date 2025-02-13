@@ -54,9 +54,9 @@ class HomeController extends MvcContextController {
   }
 
   @override
-  void dispose() {
+  void onWidgetDispose() {
     _webSocket?.close();
-    super.dispose();
+    super.onWidgetDispose();
   }
 
   Future fetchData() async {

@@ -8,11 +8,8 @@ class MvcController with ChangeNotifier {
     notifyListeners();
   }
 
-  @override
   @mustCallSuper
-  void dispose() {
-    super.dispose();
-  }
+  void onWidgetDispose() {}
 
   @mustCallSuper
   void didChangeDependencies() {}
@@ -29,6 +26,11 @@ class MvcContextController extends MvcController {
   void initState(BuildContext context) {
     super.initState(context);
     this.context = context;
+  }
+  @override
+  void didUpdateWidget(covariant MvcView<MvcContextController> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    context = oldWidget.controller.context;
   }
 }
 
@@ -76,7 +78,7 @@ class _MvcViewState extends State<MvcView> {
   void dispose() {
     super.dispose();
     widget.controller.removeListener(refresh);
-    widget.controller.dispose();
+    widget.controller.onWidgetDispose();
   }
 
   @override

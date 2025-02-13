@@ -20,7 +20,8 @@ class HomeView extends MvcView<HomeController> {
                 itemCount: controller.messages.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(

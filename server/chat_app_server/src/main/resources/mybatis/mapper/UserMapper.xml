@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.UserDao">
+    <!-- 结果映射 -->
+    <resultMap id="userMap" type="org.example.entity.po.UserPO">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="nickname" column="nickname"/>
+        <result property="signature" column="signature"/>
+        <result property="avatarUrl" column="avatar_url"/>
+        <result property="address" column="address"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="status" column="status"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        id, username, password, nickname, signature, avatar_url, address, 
+        email, phone, status, last_login_time, created_at, updated_at
+    </sql>
+
+    <!-- 插入新用户 -->
+    <insert id="insert" parameterType="org.example.entity.po.UserPO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (
+            username, password, nickname, signature, avatar_url, 
+            address, email, phone, status
+        ) VALUES (
+            #{username}, #{password}, #{nickname}, #{signature}, #{avatarUrl},
+            #{address}, #{email}, #{phone}, #{status}
+        )
+    </insert>
+
+    <!-- 更新用户信息 -->
+    <update id="update" parameterType="org.example.entity.po.UserPO">
+        UPDATE users
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="nickname != null and nickname != ''">nickname = #{nickname},</if>
+            <if test="signature != null and signature != ''">signature = #{signature},</if>
+            <if test="avatarUrl != null and avatarUrl != ''">avatar_url = #{avatarUrl},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="email != null and email != ''">email = #{email},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 更新用户密码 -->
+    <update id="updatePassword">
+        UPDATE users 
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="deleteById">
+        DELETE FROM users 
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 根据ID查询用户 -->
+    <select id="findById" resultMap="userMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM users 
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="findByUsername" resultMap="userMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM users 
+        WHERE username = #{username}
+    </select>
+
+    <!-- 根据邮箱查询用户 -->
+    <select id="findByEmail" resultMap="userMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM users 
+        WHERE email = #{email}
+    </select>
+
+    <!-- 根据手机号查询用户 -->
+    <select id="findByPhone" resultMap="userMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM users 
+        WHERE phone = #{phone}
+    </select>
+
+    <!-- 更新最后登录时间 -->
+    <update id="updateLastLoginTime">
+        UPDATE users 
+        SET last_login_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 分页查询用户列表 -->
+    <select id="findByPage" resultMap="userMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM users
+        ORDER BY id DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 统计用户总数 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM users
+    </select>
+
+    <!-- 根据条件查询用户 -->
+    <select id="findByCondition" resultMap="userMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM users
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                AND email = #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone = #{phone}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            LIMIT #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!-- 批量更新用户状态 -->
+    <update id="batchUpdateStatus">
+        UPDATE users
+        SET status = #{status}
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>
