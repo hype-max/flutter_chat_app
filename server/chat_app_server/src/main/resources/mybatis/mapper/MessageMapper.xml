@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.MessageDao">
+    <resultMap id="BaseResultMap" type="org.example.entity.po.Message">
+        <id column="id" property="id"/>
+        <result column="sender_id" property="senderId"/>
+        <result column="receiver_id" property="receiverId"/>
+        <result column="content" property="content"/>
+        <result column="msg_type" property="msgType"/>
+        <result column="group_id" property="groupId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, sender_id, receiver_id, content, msg_type, group_id, create_time
+    </sql>
+
+    <insert id="insert" parameterType="org.example.entity.po.Message" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO messages (sender_id, receiver_id, content, msg_type, group_id)
+        VALUES (#{senderId}, #{receiverId}, #{content}, #{msgType}, #{groupId})
+    </insert>
+
+    <update id="update" parameterType="org.example.entity.po.Message">
+        UPDATE messages
+        SET content = #{content},
+            msg_type = #{msgType}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM messages WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM messages
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByGroupId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM messages
+        WHERE group_id = #{groupId}
+        ORDER BY create_time ASC
+    </select>
+
+    <select id="selectPrivateMessages" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM messages
+        WHERE group_id IS NULL
+        AND ((sender_id = #{senderId} AND receiver_id = #{receiverId})
+        OR (sender_id = #{receiverId} AND receiver_id = #{senderId}))
+        ORDER BY create_time ASC
+    </select>
+</mapper>

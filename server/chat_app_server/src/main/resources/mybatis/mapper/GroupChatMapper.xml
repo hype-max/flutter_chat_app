@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.GroupChatDao">
+    <resultMap id="BaseResultMap" type="org.example.entity.po.GroupChat">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="avatar" property="avatar"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="announcement" property="announcement"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, avatar, owner_id, announcement, create_time, update_time
+    </sql>
+
+    <insert id="insert" parameterType="org.example.entity.po.GroupChat" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO group_chats (name, avatar, owner_id, announcement)
+        VALUES (#{name}, #{avatar}, #{ownerId}, #{announcement})
+    </insert>
+
+    <update id="update" parameterType="org.example.entity.po.GroupChat">
+        UPDATE group_chats
+        SET name = #{name},
+            avatar = #{avatar},
+            announcement = #{announcement}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateAnnouncement">
+        UPDATE group_chats
+        SET announcement = #{announcement}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM group_chats WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM group_chats
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByOwnerId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM group_chats
+        WHERE owner_id = #{ownerId}
+    </select>
+</mapper>

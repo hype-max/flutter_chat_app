@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.FriendRelationshipDao">
+    <resultMap id="BaseResultMap" type="org.example.entity.po.FriendRelationship">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="friend_id" property="friendId"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, friend_id, status, create_time, update_time
+    </sql>
+
+    <insert id="insert" parameterType="org.example.entity.po.FriendRelationship" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO friend_relationships (user_id, friend_id, status)
+        VALUES (#{userId}, #{friendId}, #{status})
+    </insert>
+
+    <update id="update" parameterType="org.example.entity.po.FriendRelationship">
+        UPDATE friend_relationships
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM friend_relationships WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM friend_relationships
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM friend_relationships
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByUserIdAndFriendId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM friend_relationships
+        WHERE user_id = #{userId} AND friend_id = #{friendId}
+    </select>
+</mapper>
