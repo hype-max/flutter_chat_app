@@ -58,12 +58,12 @@ https://github.com/lyming99/flutter_chat_app
 [聊天客户端模块(五) 数据库插入模拟数据](https://www.bilibili.com/video/BV1jjKMedEha)
 
 ### 第四天 聊天服务端模块
-[day4-1 聊天服务端模块(一) 总结归纳&任务安排](https://www.bilibili.com/video/BV1iHKgecEAn/?vd_source=09e984b9d215841cd344a501edf8c297)
+[聊天服务端模块(一) 总结归纳&任务安排](https://www.bilibili.com/video/BV1iHKgecEAn/?vd_source=09e984b9d215841cd344a501edf8c297)
 
-[day4-2 聊天服务端模块(二) 五分钟实现数据库的增删改查](https://www.bilibili.com/video/BV1KPANe4EZY?vd_source=09e984b9d215841cd344a501edf8c297)
+[聊天服务端模块(二) 五分钟实现数据库的增删改查](https://www.bilibili.com/video/BV1KPANe4EZY?vd_source=09e984b9d215841cd344a501edf8c297)
 
-[day4-3 聊天服务端模块(三) 10分钟完成接口逻辑和接口文档](https://www.bilibili.com/video/BV1jkAPerEoi?vd_source=09e984b9d215841cd344a501edf8c297)
+[聊天服务端模块(三) 10分钟完成接口逻辑和接口文档](https://www.bilibili.com/video/BV1jkAPerEoi?vd_source=09e984b9d215841cd344a501edf8c297)
 
-[day4-4 聊天服务端模块(四) WebSocket 转发实时消息](https://www.bilibili.com/video/BV1bpAKeAEEP?vd_source=09e984b9d215841cd344a501edf8c297)
+[聊天服务端模块(四) WebSocket 转发实时消息](https://www.bilibili.com/video/BV1bpAKeAEEP?vd_source=09e984b9d215841cd344a501edf8c297)
 
 
