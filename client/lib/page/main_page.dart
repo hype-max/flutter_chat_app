@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../controller/main_controller.dart';
-import '../controller/user_controller.dart';
+import '../controller/conversation_list_controller.dart';
+import '../controller/friend_list_controller.dart';
 import '../utils/mvc.dart';
+import 'conversation_list_page.dart';
+import 'friend_list_page.dart';
 
 class MainPage extends MvcView<MainController> {
-
   const MainPage({
     super.key,
     required super.controller,
@@ -15,8 +17,25 @@ class MainPage extends MvcView<MainController> {
     final user = controller.currentUser;
 
     return Scaffold(
+      key: controller.scaffoldKey,
       appBar: AppBar(
-        title: const Text('聊天'),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: controller.openDrawer,
+        ),
+        title: Text(
+          controller.currentIndex == 0 ? '消息' : '联系人',
+          style: const TextStyle(fontSize: 18),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // TODO: 实现搜索功能
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Column(
@@ -53,15 +72,36 @@ class MainPage extends MvcView<MainController> {
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('退出登录'),
-              onTap: () {
-                // TODO: 实现退出登录
-              },
+              onTap: controller.logout,
             ),
           ],
         ),
       ),
-      body: const Center(
-        child: Text('聊天列表'),
+      body: PageView(
+        controller: controller.pageController,
+        onPageChanged: controller.onPageChanged,
+        children: [
+          ConversationListPage(
+            controller: controller.conversationListController,
+          ),
+          FriendListPage(
+            controller: FriendListController(),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: controller.currentIndex,
+        onTap: controller.switchTab,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: '消息',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: '联系人',
+          ),
+        ],
       ),
     );
   }
