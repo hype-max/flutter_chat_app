@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       initialRoute: AppRoutes.login,
+      debugShowCheckedModeBanner: false,
       routes: AppRoutes.getRoutes(),
       onGenerateRoute: AppRoutes.onGenerateRoute,
       home: MainPage(

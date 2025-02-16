@@ -36,10 +36,18 @@ class AppRoutes {
       editProfile: (context) => EditProfilePage(controller: UserController()),
       editAvatar: (context) => AvatarEditPage(controller: UserController()),
       friendRequests: (context) => const FriendRequestsPage(),
-      chat: (context) => ChatPage(
-            controller:
-                ChatController(Conversation(conversationType: 1, targetId: 1)),
+      chat: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        if (args is Conversation) {
+          return ChatPage(controller: ChatController(args));
+        }
+        // 如果没有传递正确的参数，显示错误提示
+        return const Scaffold(
+          body: Center(
+            child: Text('Invalid chat parameters'),
           ),
+        );
+      },
     };
   }
 
