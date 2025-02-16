@@ -36,15 +36,15 @@ class FileRecord implements BaseModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'file_id': fileId,
-      'file_name': fileName,
-      'file_path': filePath,
-      'file_size': fileSize,
-      'file_type': fileType,
-      'upload_status': uploadStatus,
-      'message_id': messageId,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
+      'fileId': fileId,
+      'fileName': fileName,
+      'filePath': filePath,
+      'fileSize': fileSize,
+      'fileType': fileType,
+      'uploadStatus': uploadStatus,
+      'messageId': messageId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
@@ -57,15 +57,15 @@ class FileRecord implements BaseModel {
   factory FileRecord.fromMap(Map<String, dynamic> map) {
     return FileRecord(
       id: map['id'],
-      fileId: map['file_id'],
-      fileName: map['file_name'],
-      filePath: map['file_path'],
-      fileSize: map['file_size'],
-      fileType: map['file_type'],
-      uploadStatus: map['upload_status'],
-      messageId: map['message_id'],
-      createdAt: map['created_at'],
-      updatedAt: map['updated_at'],
+      fileId: map['fileId'],
+      fileName: map['fileName'],
+      filePath: map['filePath'],
+      fileSize: map['fileSize'],
+      fileType: map['fileType'],
+      uploadStatus: map['uploadStatus'],
+      messageId: map['messageId'],
+      createdAt: map['createdAt'],
+      updatedAt: map['updatedAt'],
     );
   }
 }

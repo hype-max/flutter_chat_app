@@ -25,7 +25,7 @@ abstract class BaseDao<T extends BaseModel> {
   Future<List<int>> insertBatch(List<T> models) async {
     final Database db = await getDatabase();
     final Batch batch = db.batch();
-    
+
     for (var model in models) {
       batch.insert(
         model.getTableName(),
@@ -33,7 +33,7 @@ abstract class BaseDao<T extends BaseModel> {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    
+
     final List<dynamic> results = await batch.commit();
     return results.cast<int>();
   }
@@ -50,7 +50,8 @@ abstract class BaseDao<T extends BaseModel> {
   }
 
   // 根据条件更新数据
-  Future<int> updateWhere(T model, String where, List<dynamic> whereArgs) async {
+  Future<int> updateWhere(
+      T model, String where, List<dynamic> whereArgs) async {
     final Database db = await getDatabase();
     return await db.update(
       model.getTableName(),
@@ -71,7 +72,8 @@ abstract class BaseDao<T extends BaseModel> {
   }
 
   // 根据条件删除数据
-  Future<int> deleteWhere(T model, String where, List<dynamic> whereArgs) async {
+  Future<int> deleteWhere(
+      T model, String where, List<dynamic> whereArgs) async {
     final Database db = await getDatabase();
     return await db.delete(
       model.getTableName(),
@@ -97,7 +99,7 @@ abstract class BaseDao<T extends BaseModel> {
       where: 'id = ?',
       whereArgs: [id],
     );
-    
+
     if (maps.isEmpty) return null;
     return createModel(maps.first);
   }

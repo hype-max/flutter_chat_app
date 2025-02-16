@@ -24,11 +24,11 @@ class FriendRequestPage extends MvcView<FriendRequestController> {
   Widget _buildRequestItem(Friend request) {
     return ListTile(
       leading: CircleAvatar(
-        child: !controller.hasAvatar(request.friendId)
+        child: !controller.hasAvatar(request.friendId!)
             ? const Icon(Icons.person)
             : null,
       ),
-      title: Text(controller.getUser(request.friendId)?.nickname ?? ""),
+      title: Text(controller.getUser(request.friendId!)?.nickname ?? ""),
       subtitle:
           Text(request.status == FriendStatus.PENDING ? '请求添加你为好友' : '等待对方通过'),
       trailing: request.status == FriendStatus.PENDING
@@ -36,12 +36,16 @@ class FriendRequestPage extends MvcView<FriendRequestController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.acceptRequest(request.id!);
+                  },
                   child: const Text('拒绝'),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.rejectRequest(request.id!);
+                  },
                   child: const Text('接受'),
                 ),
               ],

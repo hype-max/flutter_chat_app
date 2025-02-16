@@ -6,15 +6,14 @@ class GroupMemberRole {
   static const int OWNER = 2;
 }
 
-class GroupMember implements BaseModel {
-  final int? id;
-  final String groupId;
-  final String userId;
-  final String? nickname;
-  final int role;
-  final int joinTime;
-  final int createdAt;
-  final int updatedAt;
+class GroupMember extends BaseModel {
+  int? id;
+  String groupId;
+  String userId;
+  String? nickname;
+  int role;
+  int? createdAt;
+  int? updatedAt;
 
   GroupMember({
     this.id,
@@ -22,41 +21,47 @@ class GroupMember implements BaseModel {
     required this.userId,
     this.nickname,
     required this.role,
-    required this.joinTime,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'group_id': groupId,
-      'user_id': userId,
+      'groupId': groupId,
+      'userId': userId,
       'nickname': nickname,
       'role': role,
-      'join_time': joinTime,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
-  @override
-  dynamic getPrimaryKey() => id;
-
-  @override
-  String getTableName() => 'group_members';
-
-  factory GroupMember.fromMap(Map<String, dynamic> map) {
+  static GroupMember fromMap(Map<String, dynamic> map) {
     return GroupMember(
       id: map['id'],
-      groupId: map['group_id'],
-      userId: map['user_id'],
+      groupId: map['groupId'],
+      userId: map['userId'],
       nickname: map['nickname'],
       role: map['role'],
-      joinTime: map['join_time'],
-      createdAt: map['created_at'],
-      updatedAt: map['updated_at'],
+      createdAt: map['createdAt'],
+      updatedAt: map['updatedAt'],
     );
+  }
+
+  @override
+  String getTableName() {
+    return "groupMembers";
+  }
+
+  @override
+  getPrimaryKey() {
+    return "id";
+  }
+
+  @override
+  GroupMember fromJson(Map<String, dynamic> json) {
+    return GroupMember.fromMap(json);
   }
 }

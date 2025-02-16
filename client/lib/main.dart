@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'controller/main_controller.dart';
 import 'page/main_page.dart';
 import 'routes/app_routes.dart';
+import 'service/message_service.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

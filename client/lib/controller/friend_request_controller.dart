@@ -1,6 +1,6 @@
+import '../entity/user.dart';
 import '../utils/mvc.dart';
 import '../dao/model/friend.dart';
-import '../dao/model/user.dart';
 import '../service/chat_service.dart';
 
 class FriendRequest {
@@ -23,9 +23,8 @@ class FriendRequestController extends MvcContextController {
   @override
   void initState(context) {
     super.initState(context);
-    _chatService.friendRequestsStream.listen((requests) {
-      this.requests = requests;
-      refreshView();
+    _chatService.friendStream.listen((requests) {
+      loadRequests();
     });
     loadRequests();
   }
@@ -37,31 +36,33 @@ class FriendRequestController extends MvcContextController {
   Future<void> loadRequests() async {
     isLoading = true;
     refreshView();
-
     try {
-      await _chatService.getFriendRequests();
+      requests = await _chatService.getFriendRequest();
     } finally {
       isLoading = false;
       refreshView();
     }
   }
 
-  Future<void> acceptRequest(String friendId) async {
-    await _chatService.handleFriendRequest(friendId, true);
+  Future<void> acceptRequest(int requestId) async {
+    await _chatService.handleFriendRequest(requestId, true);
+    await loadRequests();
   }
 
-  Future<void> rejectRequest(String friendId) async {
-    await _chatService.handleFriendRequest(friendId, false);
+  Future<void> rejectRequest(int requestId) async {
+    await _chatService.handleFriendRequest(requestId, false);
+    await loadRequests();
   }
 
-  User? getUser(String friendId) {
+  User? getUser(int friendId) {
     return null;
   }
-  bool hasUser(String userId){
+
+  bool hasUser(int userId) {
     return false;
   }
 
-  bool hasAvatar(String friendId) {
+  bool hasAvatar(int friendId) {
     return false;
   }
 }

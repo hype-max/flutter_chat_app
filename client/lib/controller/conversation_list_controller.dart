@@ -12,11 +12,24 @@ class ConversationListController extends MvcContextController {
   @override
   void initState(BuildContext context) {
     super.initState(context);
+    
+    // 监听会话列表变化
     _chatService.conversationsStream.listen((conversations) {
       this.conversations = conversations;
       refreshView();
     });
-    loadConversations();
+    
+    // 连接WebSocket
+    _chatService.connect().then((_) {
+      loadConversations();
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('连接失败: $error'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    });
   }
 
   Future<void> onRefresh() async {
@@ -29,6 +42,13 @@ class ConversationListController extends MvcContextController {
 
     try {
       await _chatService.getConversations();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('加载会话列表失败: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     } finally {
       isLoading = false;
       refreshView();
@@ -36,6 +56,10 @@ class ConversationListController extends MvcContextController {
   }
 
   void openChat(Conversation conversation) {
+    // 打开聊天页面时清除未读消息数
+    conversation.unreadCount = 0;
+    refreshView();
+    
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -44,5 +68,10 @@ class ConversationListController extends MvcContextController {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

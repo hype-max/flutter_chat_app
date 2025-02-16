@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import '../entity/user.dart';
+import 'message_service.dart';
 
 class UserService {
   static final UserService _instance = UserService._internal();
@@ -130,6 +131,7 @@ class UserService {
     } finally {
       _token = null;
       _currentUser = null;
+      MessageService().disconnect();
     }
   }
 

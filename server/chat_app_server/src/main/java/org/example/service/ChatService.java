@@ -171,6 +171,45 @@ public class ChatService {
     }
 
     /**
+     * 处理好友申请
+     * @param requestId 好友申请ID
+     * @param userId 当前用户ID
+     * @param accept 是否接受
+     */
+    @Transactional
+    public ApiResponse<FriendRelationship> handleFriendRequest(Long requestId, Long userId, boolean accept) {
+        FriendRelationship request = friendRelationshipDao.selectById(requestId);
+        if (request == null) {
+            return ApiResponse.error("好友申请不存在");
+        }
+
+        // 验证当前用户是否为申请的接收者
+        if (!request.getFriendId().equals(userId)) {
+            return ApiResponse.error("无权处理该好友申请");
+        }
+
+        // 检查申请是否已经被处理
+        if (request.getStatus() != 0) {
+            return ApiResponse.error("该好友申请已被处理");
+        }
+
+        // 更新申请状态
+        request.setStatus(accept ? 1 : 2); // 1: 接受, 2: 拒绝
+        friendRelationshipDao.update(request);
+
+        // 如果接受申请，创建反向的好友关系
+        if (accept) {
+            FriendRelationship reverseRelation = new FriendRelationship();
+            reverseRelation.setUserId(request.getFriendId());
+            reverseRelation.setFriendId(request.getUserId());
+            reverseRelation.setStatus(1); // 直接设置为已接受
+            friendRelationshipDao.insert(reverseRelation);
+        }
+
+        return ApiResponse.success(request);
+    }
+
+    /**
      * 上传文件
      */
     public ApiResponse<FileRecord> uploadFile(MultipartFile file, Long uploaderId, Long messageId) throws IOException {

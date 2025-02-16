@@ -65,7 +65,7 @@ class ConversationListPage extends MvcView<ConversationListController> {
               ),
             ),
           ),
-          if (conversation.unreadCount > 0)
+          if (conversation.unreadCount! > 0)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
@@ -73,7 +73,7 @@ class ConversationListPage extends MvcView<ConversationListController> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                conversation.unreadCount > 99
+                conversation.unreadCount! > 99
                     ? '99+'
                     : conversation.unreadCount.toString(),
                 style: const TextStyle(

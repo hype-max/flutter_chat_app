@@ -199,14 +199,59 @@ POST /chat/upload
     "data": {
         "id": 1,
         "originalName": "test.jpg",
-        "filePath": "202502/xxx.jpg",
-        "fileSize": 1024,
-        "fileType": "image/jpeg",
-        "uploaderId": 1,
-        "messageId": 1
+        "path": "/uploads/xxx.jpg",
+        "size": 1024,
+        "createTime": "2025-02-15T10:00:00"
     }
 }
 ```
+
+### 10. 获取用户信息
+```
+GET /chat/user/{userId}
+```
+**响应示例：**
+```json
+{
+    "code": 0,
+    "msg": "success",
+    "data": {
+        "id": 1,
+        "username": "user1",
+        "nickname": "用户1",
+        "email": "user1@example.com",
+        "phone": "13800138000",
+        "avatarUrl": "avatar1.jpg",
+        "signature": "个性签名",
+        "address": "地址"
+    }
+}
+```
+
+### 11. 处理好友申请
+```
+PUT /chat/friend-request/{requestId}?accept={true|false}
+```
+**参数说明：**
+- requestId: 好友申请ID（路径参数）
+- accept: 是否接受申请（true: 接受, false: 拒绝）
+
+**响应示例：**
+```json
+{
+    "code": 0,
+    "msg": "success",
+    "data": {
+        "id": 1,
+        "userId": 2,
+        "friendId": 1,
+        "status": 1,
+        "createTime": "2025-02-15T10:00:00"
+    }
+}
+```
+**状态说明：**
+- status: 0 - 待处理, 1 - 已接受, 2 - 已拒绝
 
 ## 错误码说明
 - 0: 成功

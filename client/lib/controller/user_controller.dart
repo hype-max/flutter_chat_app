@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:chat_client/entity/user.dart';
 import 'package:flutter/material.dart';
-import '../entity/user.dart';
 import '../service/user_service.dart';
 import '../utils/mvc.dart';
 
@@ -62,7 +62,7 @@ class UserController extends MvcContextController {
     _setLoading(true);
     try {
       final user = await _userService.getCurrentUser();
-      _updateUser(user);
+        _updateUser(user);
       _initControllers();
     } catch (e) {
       _setErrorMessage(e.toString().replaceAll('Exception: ', ''));

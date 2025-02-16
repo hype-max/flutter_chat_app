@@ -1,3 +1,4 @@
+import 'package:chat_client/dao/model/conversation.dart';
 import 'package:flutter/material.dart';
 import '../controller/auth_controller.dart';
 import '../controller/chat_controller.dart';
@@ -36,7 +37,8 @@ class AppRoutes {
       editAvatar: (context) => AvatarEditPage(controller: UserController()),
       friendRequests: (context) => const FriendRequestsPage(),
       chat: (context) => ChatPage(
-            controller: ChatController(null),
+            controller:
+                ChatController(Conversation(conversationType: 1, targetId: 1)),
           ),
     };
   }

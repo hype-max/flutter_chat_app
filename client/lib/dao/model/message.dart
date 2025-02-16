@@ -1,89 +1,72 @@
 import '../base/base_model.dart';
 
 class MessageContentType {
-  static const int TEXT = 0;
-  static const int IMAGE = 1;
-  static const int VOICE = 2;
-  static const int VIDEO = 3;
-  static const int FILE = 4;
-  static const int LOCATION = 5;
+  static const int TEXT = 1;
+  static const int IMAGE = 2;
+  static const int FILE = 3;
+  static const int FRIEND_REQUEST = 11;
+  static const int FRIEND_RESPONSE = 12;
 }
 
-class MessageStatus {
-  static const int SENDING = 0;
-  static const int SENT = 1;
-  static const int DELIVERED = 2;
-  static const int READ = 3;
-  static const int FAILED = 4;
-}
-
-class Message implements BaseModel {
-   int? id;
-   String messageId;
-   String conversationId;
-   String senderId;
-   int contentType;
-   String content;
-   int status;
-   int sendTime;
-   int? receiveTime;
-   int? readTime;
-   String? extra;
-   int createdAt;
+class Message extends BaseModel {
+  int? id;
+  int senderId;
+  int? receiverId;
+  String content;
+  int contentType;
+  int? groupId;
+  int? sendTime;
+  int? createTime;
 
   Message({
     this.id,
-    required this.messageId,
-    required this.conversationId,
     required this.senderId,
-    required this.contentType,
+    this.receiverId,
     required this.content,
-    required this.status,
-    required this.sendTime,
-    this.receiveTime,
-    this.readTime,
-    this.extra,
-    required this.createdAt,
+    required this.contentType,
+    this.groupId,
+    this.sendTime,
+    this.createTime,
   });
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'message_id': messageId,
-      'conversation_id': conversationId,
-      'sender_id': senderId,
-      'content_type': contentType,
+      'senderId': senderId,
+      'receiverId': receiverId,
       'content': content,
-      'status': status,
-      'send_time': sendTime,
-      'receive_time': receiveTime,
-      'read_time': readTime,
-      'extra': extra,
-      'created_at': createdAt,
+      'contentType': contentType,
+      'groupId': groupId,
+      'sendTime': sendTime,
+      'createTime': createTime,
     };
   }
 
-  @override
-  dynamic getPrimaryKey() => id;
-
-  @override
-  String getTableName() => 'messages';
-
-  factory Message.fromMap(Map<String, dynamic> map) {
+  static Message fromMap(Map<String, dynamic> map) {
     return Message(
       id: map['id'],
-      messageId: map['message_id'],
-      conversationId: map['conversation_id'],
-      senderId: map['sender_id'],
-      contentType: map['content_type'],
+      senderId: map['senderId'],
+      receiverId: map['receiverId'],
       content: map['content'],
-      status: map['status'],
-      sendTime: map['send_time'],
-      receiveTime: map['receive_time'],
-      readTime: map['read_time'],
-      extra: map['extra'],
-      createdAt: map['created_at'],
+      contentType: map['contentType'] ?? MessageContentType.TEXT,
+      groupId: map['groupId'],
+      sendTime: map['sendTime'],
+      createTime: map['createTime'],
     );
+  }
+
+  Message fromJson(Map<String, dynamic> json) {
+    return Message.fromMap(json);
+  }
+
+  @override
+  getPrimaryKey() {
+    return "id";
+  }
+
+  @override
+  String getTableName() {
+    return "messages";
   }
 }

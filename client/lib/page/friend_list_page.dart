@@ -2,7 +2,6 @@ import 'package:chat_client/dao/model/friend.dart';
 import 'package:flutter/material.dart';
 import '../utils/mvc.dart';
 import '../controller/friend_list_controller.dart';
-import '../dao/model/user.dart';
 
 class FriendListPage extends MvcView<FriendListController> {
   const FriendListPage({super.key, required super.controller});
@@ -53,12 +52,12 @@ class FriendListPage extends MvcView<FriendListController> {
   }
 
   Widget _buildFriendItem(Friend friend) {
-    var user = controller.getUser(friend.friendId);
+    var user = controller.getUser(friend.friendId!);
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage:
-            user?.avatar != null ? NetworkImage(user!.avatar!) : null,
-        child: user?.avatar == null ? const Icon(Icons.person) : null,
+        // backgroundImage:
+        //     user?.avatarUrl != null ? NetworkImage(user!.avatarUrl!) : null,
+        child: user?.avatarUrl == null ? const Icon(Icons.person) : null,
       ),
       title: Text(user?.nickname ?? ""),
       subtitle: user?.signature != null

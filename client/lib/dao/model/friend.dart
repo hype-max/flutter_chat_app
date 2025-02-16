@@ -5,54 +5,62 @@ class FriendStatus {
   static const int ACCEPTED = 1;
   static const int BLOCKED = 2;
 }
-
-class Friend implements BaseModel {
+class Friend extends BaseModel {
   int? id;
-  String userId;
-  String friendId;
+  int? userId;
+  int? friendId;
   String? remark;
   int status;
-  int? createdAt;
-  int? updatedAt;
+  int? createTime;
+  int? updateTime;
 
   Friend({
     this.id,
-    required this.userId,
-    required this.friendId,
+    this.userId,
+    this.friendId,
     this.remark,
-    required this.status,
-    this.createdAt,
-    this.updatedAt,
+    this.status = 0,
+    this.createTime,
+    this.updateTime,
   });
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'user_id': userId,
-      'friend_id': friendId,
+      'userId': userId,
+      'friendId': friendId,
       'remark': remark,
       'status': status,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
+      'createdTime': createTime,
+      'updatedTime': updateTime,
     };
   }
 
-  @override
-  dynamic getPrimaryKey() => id;
-
-  @override
-  String getTableName() => 'friends';
-
-  factory Friend.fromMap(Map<String, dynamic> map) {
+  static Friend fromMap(Map<String, dynamic> map) {
     return Friend(
       id: map['id'],
-      userId: map['user_id'],
-      friendId: map['friend_id'],
+      userId: map['userId'],
+      friendId: map['friendId'],
       remark: map['remark'],
-      status: map['status'],
-      createdAt: map['created_at'],
-      updatedAt: map['updated_at'],
+      status: map['status'] ?? 0,
+      createTime: map['createTime'],
+      updateTime: map['updateTime'],
     );
+  }
+
+  @override
+  String getTableName() {
+    return "friends";
+  }
+
+  @override
+  getPrimaryKey() {
+    return "id";
+  }
+
+  @override
+  Friend fromJson(Map<String, dynamic> json) {
+    return Friend.fromMap(json);
   }
 }

@@ -10,13 +10,7 @@ class FriendDao extends BaseDao<Friend> {
 
   @override
   Future<Friend> getInstance() async {
-    return Friend(
-      userId: '',
-      friendId: '',
-      status: 0,
-      createdAt: 0,
-      updatedAt: 0,
-    );
+    return Friend();
   }
 
   Future<List<Friend>> getFriends() async {
@@ -31,27 +25,28 @@ class FriendDao extends BaseDao<Friend> {
     return findWhere(
       where: 'status = ?',
       whereArgs: [0], // 0 表示待处理的好友请求
-      orderBy: 'created_at DESC',
+      orderBy: 'createdAt DESC',
     );
   }
 
-  Future<void> updateFriendStatus(String friendId, int status) async {
+  Future<void> updateFriendStatus(int requestId, int status) async {
     final now = DateTime.now().millisecondsSinceEpoch;
     await rawUpdate(
-      'UPDATE ${(await getInstance()).getTableName()} SET status = ?, updated_at = ? WHERE friend_id = ?',
-      [status, now, friendId],
+      'UPDATE ${(await getInstance()).getTableName()} SET status = ?, updatedTime = ? WHERE id = ?',
+      [status, now, requestId],
     );
   }
 
   Future<bool> isFriend(String friendId) async {
     final count = await this.count(
-      where: 'friend_id = ? AND status = ?',
+      where: 'friendId = ? AND status = ?',
       whereArgs: [friendId, 1],
     );
     return count > 0;
   }
 
-  Future<void> updateFriendInfo(String friendId, {String? nickname, String? avatar}) async {
+  Future<void> updateFriendInfo(String friendId,
+      {String? nickname, String? avatar}) async {
     final now = DateTime.now().millisecondsSinceEpoch;
     final updates = <String>[];
     final args = <dynamic>[];
@@ -64,12 +59,12 @@ class FriendDao extends BaseDao<Friend> {
       updates.add('avatar = ?');
       args.add(avatar);
     }
-    updates.add('updated_at = ?');
+    updates.add('updatedTime = ?');
     args.add(now);
     args.add(friendId);
 
     await rawUpdate(
-      'UPDATE ${(await getInstance()).getTableName()} SET ${updates.join(', ')} WHERE friend_id = ?',
+      'UPDATE ${(await getInstance()).getTableName()} SET ${updates.join(', ')} WHERE friendId = ?',
       args,
     );
   }
