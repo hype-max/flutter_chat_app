@@ -66,4 +66,20 @@ https://github.com/lyming99/flutter_chat_app
 
 [聊天服务端模块(四) WebSocket 转发实时消息](https://www.bilibili.com/video/BV1bpAKeAEEP?vd_source=09e984b9d215841cd344a501edf8c297)
 
+### 第五天 联调接口
+[联调接口(一) 任务安排&功能分析](https://www.bilibili.com/video/BV1TJAVeEE7z/?vd_source=09e984b9d215841cd344a501edf8c297)
+
+[联调接口(二) 自然语言编程](https://www.bilibili.com/video/BV1KJAVeEEyZ?vd_source=09e984b9d215841cd344a501edf8c297)
+
+[联调接口(三) 修改错误，删除无用代码](https://www.bilibili.com/video/BV147AVeSEZd?vd_source=09e984b9d215841cd344a501edf8c297)
+
+[联调接口(四) Websocket 接口联调](https://www.bilibili.com/video/BV1bvAGeEEk7?vd_source=09e984b9d215841cd344a501edf8c297)
+
+[联调接口(五) 会话窗口联调](https://www.bilibili.com/video/BV13VALecEiC?vd_source=09e984b9d215841cd344a501edf8c297)
+
+[联调接口(六) 好友请求实现详细讲解](https://www.bilibili.com/video/BV1qpA5eNEne?vd_source=09e984b9d215841cd344a501edf8c297)
+
+
+
+
 
