@@ -108,8 +108,7 @@
     <select id="findByPage" resultMap="userMap">
         SELECT 
         <include refid="Base_Column_List"/>
-        FROM users
-        ORDER BY id DESC
+        FROM users 
         LIMIT #{offset}, #{limit}
     </select>
 
@@ -141,6 +140,18 @@
         <if test="offset != null and limit != null">
             LIMIT #{offset}, #{limit}
         </if>
+    </select>
+
+    <!-- 搜索用户 -->
+    <select id="searchUsers" resultMap="userMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM users 
+        WHERE 
+            username LIKE CONCAT('%', #{keyword}, '%')
+            OR nickname LIKE CONCAT('%', #{keyword}, '%')
+            OR email LIKE CONCAT('%', #{keyword}, '%')
+        LIMIT #{offset}, #{limit}
     </select>
 
     <!-- 批量更新用户状态 -->

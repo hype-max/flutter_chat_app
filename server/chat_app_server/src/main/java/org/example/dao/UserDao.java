@@ -100,6 +100,16 @@ public interface UserDao {
     int count();
 
     /**
+     * 搜索用户
+     *
+     * @param keyword 搜索关键字（用户名、昵称、邮箱）
+     * @param offset 偏移量
+     * @param limit 限制数量
+     * @return 用户列表
+     */
+    List<UserPO> searchUsers(@Param("keyword") String keyword, @Param("offset") int offset, @Param("limit") int limit);
+
+    /**
      * 批量更新用户状态
      *
      * @param ids 用户ID列表

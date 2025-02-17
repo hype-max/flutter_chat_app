@@ -253,6 +253,62 @@ PUT /chat/friend-request/{requestId}?accept={true|false}
 **状态说明：**
 - status: 0 - 待处理, 1 - 已接受, 2 - 已拒绝
 
+## 用户相关接口
+
+### 1. 搜索用户
+```
+GET /api/user/search?keyword={keyword}&page={page}&size={size}
+```
+**请求参数：**
+- keyword: 搜索关键字（用户名、昵称、邮箱）
+- page: 页码，默认1
+- size: 每页大小，默认20
+
+**响应示例：**
+```json
+{
+    "code": 0,
+    "msg": "success",
+    "data": [
+        {
+            "id": 1,
+            "username": "user1",
+            "nickname": "用户1",
+            "email": "user1@example.com",
+            "phone": "13800138000",
+            "avatarUrl": "avatar1.jpg",
+            "signature": "个性签名",
+            "address": "地址"
+        }
+    ]
+}
+```
+
+### 2. 获取用户信息
+```
+GET /api/user/{userId}
+```
+**请求参数：**
+- userId: 用户ID（路径参数）
+
+**响应示例：**
+```json
+{
+    "code": 0,
+    "msg": "success",
+    "data": {
+        "id": 1,
+        "username": "user1",
+        "nickname": "用户1",
+        "email": "user1@example.com",
+        "phone": "13800138000",
+        "avatarUrl": "avatar1.jpg",
+        "signature": "个性签名",
+        "address": "地址"
+    }
+}
+```
+
 ## 错误码说明
 - 0: 成功
 - 1: 通用错误

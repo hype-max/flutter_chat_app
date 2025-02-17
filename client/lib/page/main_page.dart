@@ -1,3 +1,4 @@
+import 'package:chat_client/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../controller/main_controller.dart';
 import '../controller/conversation_list_controller.dart';
@@ -33,6 +34,12 @@ class MainPage extends MvcView<MainController> {
             icon: const Icon(Icons.search),
             onPressed: () {
               // TODO: 实现搜索功能
+              if (controller.currentIndex == 0) {
+                // 搜索消息
+              } else {
+                // 搜索联系人
+                Navigator.pushNamed(context, AppRoutes.userSearch);
+              }
             },
           ),
         ],
@@ -45,9 +52,8 @@ class MainPage extends MvcView<MainController> {
                 backgroundImage: user?.avatarUrl != null
                     ? NetworkImage(user!.avatarUrl!)
                     : null,
-                child: user?.avatarUrl == null
-                    ? const Icon(Icons.person)
-                    : null,
+                child:
+                    user?.avatarUrl == null ? const Icon(Icons.person) : null,
               ),
               accountName: Text(user?.nickname ?? user?.username ?? ''),
               accountEmail: Text(user?.email ?? ''),

@@ -257,6 +257,22 @@ public class UserService {
     }
 
     /**
+     * 搜索用户
+     * @param keyword 关键字（用户名、昵称、邮箱）
+     * @param page 页码
+     * @param size 每页大小
+     */
+    public ApiResponse<List<UserVO>> searchUsers(String keyword, int page, int size) {
+        List<UserPO> users = userDao.searchUsers(keyword, (page - 1) * size, size);
+        List<UserVO> userVOs = users.stream().map(user -> {
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user, userVO);
+            return userVO;
+        }).collect(java.util.stream.Collectors.toList());
+        return ApiResponse.success(userVOs);
+    }
+
+    /**
      * 禁用用户
      */
     @Transactional

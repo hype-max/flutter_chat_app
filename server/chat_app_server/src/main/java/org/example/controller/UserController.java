@@ -99,23 +99,14 @@ public class UserController {
      * 下载头像
      */
     @GetMapping("/avatar/{userId}")
-    public void downloadAvatar(@PathVariable Long userId, HttpServletResponse response) throws IOException {
+    public void getAvatar(@PathVariable Long userId, HttpServletResponse response) throws IOException {
         String avatarPath = userService.getAvatarPath(userId);
-        if (avatarPath == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Avatar not found");
-            return;
+        if (avatarPath != null) {
+            File file = new File(avatarPath);
+            if (file.exists()) {
+                Files.copy(file.toPath(), response.getOutputStream());
+            }
         }
-
-        File file = new File(".", avatarPath);
-        if (!file.exists()) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Avatar file not found");
-            return;
-        }
-
-        response.setContentType("image/jpeg");
-        response.setHeader("Content-Disposition", "inline; filename=avatar.jpg");
-        Files.copy(file.toPath(), response.getOutputStream());
-        response.getOutputStream().flush();
     }
 
     /**
@@ -144,5 +135,26 @@ public class UserController {
     @RequireAuth
     public ApiResponse<Void> enableUser(@PathVariable Long userId) {
         return userService.enableUser(userId);
+    }
+
+    /**
+     * 搜索用户
+     */
+    @GetMapping("/search")
+//    @RequireAuth
+    public ApiResponse<List<UserVO>> searchUsers(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return userService.searchUsers(keyword, page, size);
+    }
+
+    /**
+     * 获取指定用户信息
+     */
+    @GetMapping("/{userId}")
+    @RequireAuth
+    public ApiResponse<UserVO> getUserInfo(@PathVariable Long userId) {
+        return userService.getUserInfo(userId);
     }
 }
