@@ -28,7 +28,8 @@ class UserController extends MvcContextController {
     final avatarUrl = _currentUser!.avatarUrl;
     if (avatarUrl != null && !avatarUrl.startsWith('http')) {
       return _currentUser!.copyWith(
-        avatarUrl: 'http://localhost:8080/${avatarUrl.startsWith('/') ? '' : '/'}$avatarUrl',
+        avatarUrl:
+            'http://localhost:8080/${avatarUrl.startsWith('/') ? '' : '/'}$avatarUrl',
       );
     }
     return _currentUser;
@@ -50,6 +51,7 @@ class UserController extends MvcContextController {
   void _updateUser(User user) {
     _currentUser = user;
     notifyListeners();
+    refreshView();
   }
 
   @override
@@ -62,7 +64,7 @@ class UserController extends MvcContextController {
     _setLoading(true);
     try {
       final user = await _userService.getCurrentUser();
-        _updateUser(user);
+      _updateUser(user);
       _initControllers();
     } catch (e) {
       _setErrorMessage(e.toString().replaceAll('Exception: ', ''));
@@ -107,6 +109,10 @@ class UserController extends MvcContextController {
             : null,
       );
       _updateUser(user);
+
+      // Refresh user info to ensure all parts of the app have the latest data
+      await refreshUserInfo();
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('个人信息更新成功')),
@@ -180,16 +186,11 @@ class UserController extends MvcContextController {
   }
 
   Future<void> refreshUserInfo() async {
-    _setErrorMessage(null);
-    _setLoading(true);
-
     try {
       final user = await _userService.getCurrentUser();
       _updateUser(user);
     } catch (e) {
-      _setErrorMessage(e.toString().replaceAll('Exception: ', ''));
-    } finally {
-      _setLoading(false);
+      print('Failed to refresh user info: ${e.toString()}');
     }
   }
 

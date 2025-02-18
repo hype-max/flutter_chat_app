@@ -7,6 +7,7 @@ class ConversationType {
 
 class Conversation extends BaseModel {
   int? id;
+  int? userId;
   int conversationType;
   String? lastMessage;
   int? lastMessageTime;
@@ -20,6 +21,7 @@ class Conversation extends BaseModel {
 
   Conversation({
     this.id,
+    this.userId,
     required this.conversationType,
     this.lastMessage,
     this.lastMessageTime,
@@ -36,6 +38,7 @@ class Conversation extends BaseModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'userId': userId,
       'conversationType': conversationType,
       'lastMessage': lastMessage,
       'lastMessageTime': lastMessageTime,
@@ -52,6 +55,7 @@ class Conversation extends BaseModel {
   static Conversation fromMap(Map<String, dynamic> map) {
     return Conversation(
       id: map['id'],
+      userId: map['userId'],
       conversationType: map['conversationType'],
       lastMessage: map['lastMessage'],
       lastMessageTime: map['lastMessageTime'],
@@ -73,7 +77,6 @@ class Conversation extends BaseModel {
   @override
   dynamic getPrimaryKey() => id;
 
-  @override
   Conversation fromJson(Map<String, dynamic> json) {
     return Conversation.fromMap(json);
   }

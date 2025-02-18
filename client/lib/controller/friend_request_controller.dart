@@ -2,6 +2,7 @@ import '../entity/user.dart';
 import '../utils/mvc.dart';
 import '../dao/model/friend.dart';
 import '../service/chat_service.dart';
+import '../api/chat_api.dart';
 
 class FriendRequest {
   final User user;
@@ -17,7 +18,9 @@ class FriendRequest {
 
 class FriendRequestController extends MvcContextController {
   final _chatService = ChatService();
+  final _chatApi = ChatApi();
   List<Friend> requests = [];
+  final Map<int, User> _userCache = {};
   bool isLoading = false;
 
   @override
@@ -38,31 +41,48 @@ class FriendRequestController extends MvcContextController {
     refreshView();
     try {
       requests = await _chatService.getFriendRequest();
+      // Load user information for each request
+      for (var request in requests) {
+        if (request.friendId != null && !_userCache.containsKey(request.friendId)) {
+          try {
+            final user = await _chatApi.getUser(request.friendId!);
+            _userCache[request.friendId!] = user;
+          } catch (e) {
+            print('Failed to load user info for id ${request.friendId}: $e');
+          }
+        }
+      }
     } finally {
       isLoading = false;
       refreshView();
     }
   }
 
-  Future<void> acceptRequest(int requestId) async {
-    await _chatService.handleFriendRequest(requestId, true);
+  Future<void> acceptRequest(Friend request) async {
+    await _chatService.handleFriendRequest(request, true);
     await loadRequests();
   }
 
-  Future<void> rejectRequest(int requestId) async {
-    await _chatService.handleFriendRequest(requestId, false);
+  Future<void> rejectRequest(Friend request) async {
+    await _chatService.handleFriendRequest(request, false);
     await loadRequests();
   }
 
   User? getUser(int friendId) {
-    return null;
+    return _userCache[friendId];
   }
 
   bool hasUser(int userId) {
-    return false;
+    return _userCache.containsKey(userId);
   }
 
   bool hasAvatar(int friendId) {
-    return false;
+    final user = _userCache[friendId];
+    return user?.avatarUrl != null;
+  }
+
+  String? getAvatar(int friendId) {
+    final user = _userCache[friendId];
+    return user?.avatarUrl;
   }
 }

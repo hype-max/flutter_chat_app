@@ -10,6 +10,7 @@ class MessageContentType {
 
 class Message extends BaseModel {
   int? id;
+  int? userId;
   int senderId;
   int? receiverId;
   String content;
@@ -20,6 +21,7 @@ class Message extends BaseModel {
 
   Message({
     this.id,
+    this.userId,
     required this.senderId,
     this.receiverId,
     required this.content,
@@ -33,6 +35,7 @@ class Message extends BaseModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'userId': userId,
       'senderId': senderId,
       'receiverId': receiverId,
       'content': content,
@@ -46,6 +49,7 @@ class Message extends BaseModel {
   static Message fromMap(Map<String, dynamic> map) {
     return Message(
       id: map['id'],
+      userId: map['userId'],
       senderId: map['senderId'],
       receiverId: map['receiverId'],
       content: map['content'],

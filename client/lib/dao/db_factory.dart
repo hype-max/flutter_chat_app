@@ -12,7 +12,7 @@ class DBFactory {
   }
 
   static Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'chat_app7.db');
+    String path = join(await getDatabasesPath(), 'chat_app11.db');
     print(path);
     return await openDatabase(
       path,
@@ -32,6 +32,7 @@ class DBFactory {
     await db.execute('''
           CREATE TABLE IF NOT EXISTS conversations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            userId INTEGER,
             conversationType INTEGER NOT NULL,
             lastMessage TEXT,
             lastMessageTime INTEGER,
@@ -49,6 +50,7 @@ class DBFactory {
     await db.execute('''
           CREATE TABLE IF NOT EXISTS messages (
             id INTEGER PRIMARY KEY,
+            userId INTEGER,
             senderId INTEGER NOT NULL,
             receiverId INTEGER,
             content TEXT NOT NULL,
@@ -110,6 +112,7 @@ class DBFactory {
     await db.execute('''
           CREATE TABLE IF NOT EXISTS groups (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            userId INTEGER,
             groupId TEXT NOT NULL UNIQUE,
             groupName TEXT NOT NULL,
             groupAvatar TEXT,

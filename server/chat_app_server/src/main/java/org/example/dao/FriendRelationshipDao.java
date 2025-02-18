@@ -11,5 +11,6 @@ public interface FriendRelationshipDao {
     int deleteById(Long id);
     FriendRelationship selectById(Long id);
     List<FriendRelationship> selectByUserId(Long userId);
+    List<FriendRelationship> selectByFriendId(Long userId);
     FriendRelationship selectByUserIdAndFriendId(Long userId, Long friendId);
 }

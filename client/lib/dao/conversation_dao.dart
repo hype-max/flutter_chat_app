@@ -1,5 +1,6 @@
 import 'base/base_dao.dart';
 import 'model/conversation.dart';
+import '../service/user_service.dart';
 
 class ConversationDao extends BaseDao<Conversation> {
   @override
@@ -50,6 +51,10 @@ class ConversationDao extends BaseDao<Conversation> {
   }
 
   Future<Conversation?> upsertConversation(Conversation conversation) async {
+    if(conversation.id!=null){
+      await update(conversation);
+      return conversation;
+    }
     var old = await findWhere(
         where: "targetId = ? and conversationType=?",
         whereArgs: [
@@ -59,9 +64,28 @@ class ConversationDao extends BaseDao<Conversation> {
     if (old.isNotEmpty) {
       var first = old.first;
       await update(conversation..id = first.id);
-    }else {
+    } else {
       conversation.id = await insert(conversation);
     }
     return conversation;
+  }
+
+  Future<List<Conversation>> findByUserId(int? userId) {
+    return findWhere(
+      where: "userId = ?",
+      whereArgs: [
+        userId,
+      ],
+    );
+  }
+
+  Future<Conversation?> findByTargetId(int targetId) async {
+    final currentUserId = UserService().currentUser?.id;
+    final conversations = await findWhere(
+      where: "targetId = ? AND userId = ?",
+      whereArgs: [targetId, currentUserId],
+      limit: 1,
+    );
+    return conversations.isEmpty ? null : conversations.first;
   }
 }

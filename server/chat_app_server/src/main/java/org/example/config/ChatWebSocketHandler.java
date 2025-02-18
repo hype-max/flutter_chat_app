@@ -87,13 +87,10 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         try {
             // 1. 解析消息为MessagePO对象
             Message messagePO = objectMapper.readValue(message.getPayload(), Message.class);
-            
-            // 2. 设置发送时间
-            messagePO.setCreateTime(LocalDateTime.now());
-            
+            // 2. 设置消息创建时间
+            messagePO.setCreateTime(System.currentTimeMillis());
             // 3. 保存消息到数据库并获取生成的ID
             messageDao.insert(messagePO);
-            
             // 4. 将消息转换为JSON字符串
             String jsonMessage = objectMapper.writeValueAsString(messagePO);
             TextMessage textMessage = new TextMessage(jsonMessage);

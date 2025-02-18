@@ -1,3 +1,4 @@
+import 'package:chat_client/controller/user_info_controller.dart';
 import 'package:flutter/material.dart';
 import '../utils/mvc.dart';
 import '../entity/user.dart';
@@ -46,7 +47,9 @@ class UserSearchController extends MvcContextController {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UserInfoPage(user: user),
+        builder: (context) => UserInfoPage(
+          controller: UserInfoController(user: user),
+        ),
       ),
     );
   }

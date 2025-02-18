@@ -145,7 +145,7 @@ public class ChatService {
      * 查询好友申请记录
      */
     public ApiResponse<List<FriendRelationship>> getFriendRequests(Long userId) {
-        List<FriendRelationship> requests = friendRelationshipDao.selectByUserId(userId)
+        List<FriendRelationship> requests = friendRelationshipDao.selectByFriendId(userId)
                 .stream()
                 .filter(r -> r.getStatus() == 0) // 只返回待处理的申请
                 .collect(Collectors.toList());
@@ -159,7 +159,14 @@ public class ChatService {
         // 检查是否已经是好友
         FriendRelationship existing = friendRelationshipDao.selectByUserIdAndFriendId(userId, friendId);
         if (existing != null) {
-            return ApiResponse.error("已经发送过好友申请或已经是好友");
+            if (existing.getStatus() == 1) {
+                return ApiResponse.success(existing);
+            } else {
+                existing.setStatus(0);
+                existing.setUpdateTime(LocalDateTime.now());
+                friendRelationshipDao.update(existing);
+                return ApiResponse.success(existing);
+            }
         }
 
         FriendRelationship request = new FriendRelationship();
@@ -172,9 +179,10 @@ public class ChatService {
 
     /**
      * 处理好友申请
+     *
      * @param requestId 好友申请ID
-     * @param userId 当前用户ID
-     * @param accept 是否接受
+     * @param userId    当前用户ID
+     * @param accept    是否接受
      */
     @Transactional
     public ApiResponse<FriendRelationship> handleFriendRequest(Long requestId, Long userId, boolean accept) {
@@ -196,14 +204,20 @@ public class ChatService {
         // 更新申请状态
         request.setStatus(accept ? 1 : 2); // 1: 接受, 2: 拒绝
         friendRelationshipDao.update(request);
-
         // 如果接受申请，创建反向的好友关系
         if (accept) {
-            FriendRelationship reverseRelation = new FriendRelationship();
-            reverseRelation.setUserId(request.getFriendId());
-            reverseRelation.setFriendId(request.getUserId());
-            reverseRelation.setStatus(1); // 直接设置为已接受
-            friendRelationshipDao.insert(reverseRelation);
+            FriendRelationship friendRelationship = friendRelationshipDao.selectByUserIdAndFriendId(request.getFriendId(), request.getUserId());
+            if (friendRelationship != null) {
+                friendRelationship.setStatus(1);
+                friendRelationship.setUpdateTime(LocalDateTime.now());
+                friendRelationshipDao.update(friendRelationship);
+            } else {
+                friendRelationship = new FriendRelationship();
+                friendRelationship.setUserId(request.getFriendId());
+                friendRelationship.setFriendId(request.getUserId());
+                friendRelationship.setStatus(1); // 直接设置为已接受
+                friendRelationshipDao.insert(friendRelationship);
+            }
         }
 
         return ApiResponse.success(request);

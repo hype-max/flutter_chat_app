@@ -38,6 +38,7 @@ class MessageService {
       },
       onDone: () {
         _webSocket = null;
+        reconnect();
       },
     );
   }

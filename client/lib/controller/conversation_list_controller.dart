@@ -58,6 +58,7 @@ class ConversationListController extends MvcContextController {
   void openChat(Conversation conversation) {
     // 打开聊天页面时清除未读消息数
     conversation.unreadCount = 0;
+    _chatService.upsertConversation(conversation);
     refreshView();
     
     Navigator.push(
@@ -68,10 +69,5 @@ class ConversationListController extends MvcContextController {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

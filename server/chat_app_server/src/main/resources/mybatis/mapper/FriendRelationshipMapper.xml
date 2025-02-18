@@ -41,6 +41,12 @@
         WHERE user_id = #{userId}
     </select>
 
+    <select id="selectByFriendId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM friend_relationships
+        WHERE friend_id = #{userId}
+    </select>
+
     <select id="selectByUserIdAndFriendId" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"/>
         FROM friend_relationships

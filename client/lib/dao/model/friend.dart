@@ -3,13 +3,14 @@ import '../base/base_model.dart';
 class FriendStatus {
   static const int PENDING = 0;
   static const int ACCEPTED = 1;
-  static const int BLOCKED = 2;
+  static const int REJECTED = 2;
+  static const int BLOCKED = 3;
 }
+
 class Friend extends BaseModel {
   int? id;
   int? userId;
   int? friendId;
-  String? remark;
   int status;
   int? createTime;
   int? updateTime;
@@ -18,8 +19,7 @@ class Friend extends BaseModel {
     this.id,
     this.userId,
     this.friendId,
-    this.remark,
-    this.status = 0,
+    this.status = FriendStatus.PENDING,
     this.createTime,
     this.updateTime,
   });
@@ -30,10 +30,9 @@ class Friend extends BaseModel {
       'id': id,
       'userId': userId,
       'friendId': friendId,
-      'remark': remark,
       'status': status,
-      'createdTime': createTime,
-      'updatedTime': updateTime,
+      'createTime': createTime,
+      'updateTime': updateTime,
     };
   }
 
@@ -42,10 +41,13 @@ class Friend extends BaseModel {
       id: map['id'],
       userId: map['userId'],
       friendId: map['friendId'],
-      remark: map['remark'],
-      status: map['status'] ?? 0,
-      createTime: map['createTime'],
-      updateTime: map['updateTime'],
+      status: map['status'] ?? FriendStatus.PENDING,
+      createTime: map['createTime'] != null 
+          ? DateTime.parse(map['createTime']).millisecondsSinceEpoch 
+          : null,
+      updateTime: map['updateTime'] != null 
+          ? DateTime.parse(map['updateTime']).millisecondsSinceEpoch 
+          : null,
     );
   }
 

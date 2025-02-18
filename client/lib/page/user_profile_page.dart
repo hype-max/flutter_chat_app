@@ -1,3 +1,4 @@
+import 'package:chat_client/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../controller/user_controller.dart';
 import '../utils/mvc.dart';
@@ -8,14 +9,15 @@ class UserProfilePage extends MvcView<UserController> {
   @override
   Widget build(BuildContext context) {
     final user = controller.currentUser;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('个人资料'),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () => Navigator.pushNamed(context, '/edit-profile'),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.editProfile)
+                .then((_) => controller.refreshUserInfo()),
           ),
         ],
       ),
@@ -58,12 +60,9 @@ class UserProfilePage extends MvcView<UserController> {
                 _buildInfoTile('昵称', user.nickname ?? '未设置'),
                 if (user.signature != null)
                   _buildInfoTile('个性签名', user.signature!),
-                if (user.address != null)
-                  _buildInfoTile('地址', user.address!),
-                if (user.email != null)
-                  _buildInfoTile('邮箱', user.email!),
-                if (user.phone != null)
-                  _buildInfoTile('手机号', user.phone!),
+                if (user.address != null) _buildInfoTile('地址', user.address!),
+                if (user.email != null) _buildInfoTile('邮箱', user.email!),
+                if (user.phone != null) _buildInfoTile('手机号', user.phone!),
                 const SizedBox(height: 24),
                 OutlinedButton(
                   onPressed: () => _showChangePasswordDialog(context),

@@ -35,9 +35,16 @@ class EditProfilePage extends MvcView<UserController> {
           else
             TextButton(
               onPressed: controller.updateProfile,
+              style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
               child: const Text(
                 '保存',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
         ],

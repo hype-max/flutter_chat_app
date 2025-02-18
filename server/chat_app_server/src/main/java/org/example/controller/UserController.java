@@ -101,12 +101,26 @@ public class UserController {
     @GetMapping("/avatar/{userId}")
     public void getAvatar(@PathVariable Long userId, HttpServletResponse response) throws IOException {
         String avatarPath = userService.getAvatarPath(userId);
-        if (avatarPath != null) {
-            File file = new File(avatarPath);
-            if (file.exists()) {
-                Files.copy(file.toPath(), response.getOutputStream());
-            }
+        if (avatarPath == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Avatar not found");
+            return;
         }
+
+        File file = new File(avatarPath);
+        if (!file.exists()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Avatar file not found");
+            return;
+        }
+
+        // 设置响应头
+        String contentType = Files.probeContentType(file.toPath());
+        response.setContentType(contentType != null ? contentType : "application/octet-stream");
+        response.setContentLengthLong(file.length());
+        response.setHeader("Cache-Control", "max-age=31536000"); // 缓存1年
+
+        // 复制文件内容到响应流
+        Files.copy(file.toPath(), response.getOutputStream());
+        response.getOutputStream().flush();
     }
 
     /**

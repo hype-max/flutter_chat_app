@@ -18,12 +18,11 @@ class MessageDao extends BaseDao<Message> {
     );
   }
 
-  Future<List<Message>> getMessages(int? conversationId) async {
+  Future<List<Message>> getMessages(int? userId, int? targetId) async {
     return findWhere(
-      where: 'senderId = ? or receiverId=?',
-      whereArgs: [conversationId, conversationId],
-      orderBy: 'sendTime DESC',
+      where: '(senderId = ? or receiverId=?) and userId=?',
+      whereArgs: [targetId, targetId, userId],
+      orderBy: 'createTime DESC',
     );
   }
-
 }

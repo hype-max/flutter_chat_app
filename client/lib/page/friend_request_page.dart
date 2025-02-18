@@ -37,14 +37,14 @@ class FriendRequestPage extends MvcView<FriendRequestController> {
               children: [
                 TextButton(
                   onPressed: () {
-                    controller.acceptRequest(request.id!);
+                    controller.rejectRequest(request);
                   },
                   child: const Text('拒绝'),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: () {
-                    controller.rejectRequest(request.id!);
+                    controller.acceptRequest(request);
                   },
                   child: const Text('接受'),
                 ),

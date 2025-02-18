@@ -135,7 +135,7 @@ GET /chat/messages?receiverId={receiverId}&groupId={groupId}
             "senderId": 1,
             "receiverId": 2,
             "content": "你好",
-            "msgType": 1,
+            "contentType": 1,
             "groupId": null,
             "createTime": "2025-02-15T10:00:00"
         }

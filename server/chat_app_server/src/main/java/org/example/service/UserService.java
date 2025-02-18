@@ -320,6 +320,8 @@ public class UserService {
         if (user == null || user.getAvatarUrl() == null) {
             return null;
         }
-        return user.getAvatarUrl();
+        // 将相对路径转换为完整的文件系统路径
+        String relativePath = user.getAvatarUrl().replace("/uploads/", "");
+        return Paths.get(uploadDir, relativePath).toString();
     }
 }

@@ -63,7 +63,8 @@ class MainPage extends MvcView<MainController> {
               title: const Text('个人资料'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/profile');
+                Navigator.pushNamed(context, '/profile')
+                    .then((_) => controller.refreshUserInfo());
               },
             ),
             ListTile(
