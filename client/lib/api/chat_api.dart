@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import '../entity/user.dart';
 import '../service/user_service.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ChatApi {
   static final ChatApi _instance = ChatApi._internal();
@@ -95,7 +96,7 @@ class ChatApi {
   // 上传文件
   Future<Map<String, dynamic>> uploadFile(
     File file,
-    String messageId,
+    int messageId,
   ) async {
     try {
       final formData = FormData.fromMap({
@@ -114,6 +115,26 @@ class ChatApi {
     await _dio.put('/friend-request/$requestId?accept=$accept');
     } catch (e) {
       throw Exception('更新好友请求申请失败: $e');
+    }
+  }
+
+  // 下载文件
+  Future<String> downloadFile(int fileId, String fileName) async {
+    try {
+      final tempDir = await getApplicationCacheDirectory();
+      final savePath = '${tempDir.path}/$fileName';
+      
+      await _dio.download(
+        '/file/download/$fileId',
+        savePath,
+        options: Options(
+          responseType: ResponseType.bytes,
+        ),
+      );
+      
+      return savePath;
+    } catch (e) {
+      throw Exception('下载文件失败: $e');
     }
   }
 }

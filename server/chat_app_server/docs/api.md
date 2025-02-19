@@ -199,14 +199,32 @@ POST /chat/upload
     "data": {
         "id": 1,
         "originalName": "test.jpg",
-        "path": "/uploads/xxx.jpg",
-        "size": 1024,
+        "filePath": "/uploads/test.jpg",
+        "fileSize": 1024,
+        "fileType": "image/jpeg",
+        "uploaderId": 1,
+        "messageId": 1,
         "createTime": "2025-02-15T10:00:00"
     }
 }
 ```
 
-### 10. 获取用户信息
+### 10. 下载文件
+```
+GET /chat/file/download/{fileId}
+```
+**请求参数：**
+- fileId: 文件ID（路径参数）
+
+**响应：**
+- Content-Type: application/octet-stream
+- Content-Disposition: attachment; filename="原始文件名"
+- 响应体: 文件二进制内容
+
+**错误响应：**
+- 404: 文件不存在
+
+### 11. 获取用户信息
 ```
 GET /chat/user/{userId}
 ```
@@ -228,7 +246,7 @@ GET /chat/user/{userId}
 }
 ```
 
-### 11. 处理好友申请
+### 12. 处理好友申请
 ```
 PUT /chat/friend-request/{requestId}?accept={true|false}
 ```

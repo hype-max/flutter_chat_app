@@ -12,7 +12,7 @@ class DBFactory {
   }
 
   static Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'chat_app11.db');
+    String path = join(await getDatabasesPath(), 'chat_app13.db');
     print(path);
     return await openDatabase(
       path,

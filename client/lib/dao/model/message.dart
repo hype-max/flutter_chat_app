@@ -4,6 +4,8 @@ class MessageContentType {
   static const int TEXT = 1;
   static const int IMAGE = 2;
   static const int FILE = 3;
+  static const int AUDIO = 4;
+  static const int VIDEO = 5;
   static const int FRIEND_REQUEST = 11;
   static const int FRIEND_RESPONSE = 12;
 }

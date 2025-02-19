@@ -253,4 +253,11 @@ public class ChatService {
 
         return ApiResponse.success(fileRecord);
     }
+
+    /**
+     * 获取文件记录
+     */
+    public FileRecord getFileRecord(Long fileId) {
+        return fileRecordDao.selectById(fileId);
+    }
 }

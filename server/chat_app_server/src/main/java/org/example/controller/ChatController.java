@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.annotation.RequireAuth;
 import org.example.common.ApiResponse;
 import org.example.entity.po.*;
@@ -8,10 +9,16 @@ import org.example.entity.vo.*;
 import org.example.service.ChatService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -26,6 +33,8 @@ public class ChatController {
 
     @Autowired
     private HttpServletRequest request;
+    @Value("${app.upload.dir}")
+    private String uploadDir;
 
     /**
      * 获取好友列表
@@ -134,6 +143,41 @@ public class ChatController {
             @RequestParam("messageId") Long messageId) throws IOException {
         Long userId = (Long) request.getAttribute("userId");
         return chatService.uploadFile(file, userId, messageId);
+    }
+
+    /**
+     * 下载文件
+     */
+    @GetMapping("/file/download/{fileId}")
+    @RequireAuth
+    public void downloadFile(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
+        Long userId = (Long) request.getAttribute("userId");
+        FileRecord fileRecord = chatService.getFileRecord(fileId);
+        if (fileRecord == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        
+        File file = new File(uploadDir,fileRecord.getFilePath());
+        if (!file.exists()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + 
+            URLEncoder.encode(fileRecord.getOriginalName(), StandardCharsets.UTF_8.toString()) + "\"");
+        response.setContentLength(fileRecord.getFileSize().intValue());
+
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             OutputStream outputStream = response.getOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+        }
     }
 
     /**
