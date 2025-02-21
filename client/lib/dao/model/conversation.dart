@@ -3,6 +3,7 @@ import '../base/base_model.dart';
 class ConversationType {
   static const int PRIVATE = 0;
   static const int GROUP = 1;
+  static const int AI = 2;
 }
 
 class Conversation extends BaseModel {

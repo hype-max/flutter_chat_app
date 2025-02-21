@@ -29,9 +29,11 @@ class ConversationListPage extends MvcView<ConversationListController> {
             : null,
         child: conversation.conversationAvatar == null
             ? Icon(
-                conversation.conversationType == 1
-                    ? Icons.person
-                    : Icons.group,
+                conversation.conversationType == ConversationType.GROUP
+                    ? Icons.group
+                    : conversation.conversationType == ConversationType.AI
+                        ? Icons.smart_toy
+                        : Icons.person,
               )
             : null,
       ),

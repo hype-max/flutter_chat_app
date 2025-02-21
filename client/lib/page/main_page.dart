@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../controller/main_controller.dart';
 import '../controller/conversation_list_controller.dart';
 import '../controller/friend_list_controller.dart';
+import '../dao/model/conversation.dart';
 import '../utils/mvc.dart';
 import 'conversation_list_page.dart';
 import 'friend_list_page.dart';
@@ -30,6 +31,18 @@ class MainPage extends MvcView<MainController> {
         ),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.smart_toy),
+            onPressed: () {
+              // Create AI conversation
+              final conversation = Conversation(
+                conversationType: ConversationType.AI,
+                conversationName: 'AI Assistant',
+                targetId: -1,
+              );
+              Navigator.pushNamed(context, AppRoutes.chat, arguments: conversation);
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {

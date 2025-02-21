@@ -3,6 +3,7 @@ import 'package:chat_client/dao/model/conversation.dart';
 import 'package:flutter/material.dart';
 import '../controller/auth_controller.dart';
 import '../controller/chat_controller.dart';
+import '../controller/ai_chat_controller.dart';
 import '../controller/main_controller.dart';
 import '../controller/user_controller.dart';
 import '../page/avatar_edit_page.dart';
@@ -13,6 +14,7 @@ import '../page/main_page.dart';
 import '../page/register_page.dart';
 import '../page/user_profile_page.dart';
 import '../page/chat_page.dart';
+import '../page/ai_chat_page.dart';
 import '../page/user_search_page.dart';
 
 class AppRoutes {
@@ -24,6 +26,7 @@ class AppRoutes {
   static const String editAvatar = '/edit-avatar';
   static const String friendRequests = '/friend_requests';
   static const String chat = '/chat';
+  static const String aiChat = '/ai-chat';
   static const String userSearch = '/user/search';
 
   static Map<String, WidgetBuilder> getRoutes() {
@@ -45,6 +48,9 @@ class AppRoutes {
       chat: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args is Conversation) {
+          if (args.conversationType == ConversationType.AI) {
+            return AiChatPage(controller: AiChatController());
+          }
           return ChatPage(controller: ChatController(args));
         }
         // 如果没有传递正确的参数，显示错误提示
@@ -54,6 +60,7 @@ class AppRoutes {
           ),
         );
       },
+      aiChat: (context) => AiChatPage(controller: AiChatController()),
     };
   }
 
