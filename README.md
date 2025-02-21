@@ -97,3 +97,8 @@ https://github.com/lyming99/flutter_chat_app
 [【即时通讯APP开发实战】测试收集bug，修改bug(四) 解决接受好友bug](https://www.bilibili.com/video/BV1awAaekEqF)
 
 [【即时通讯APP开发实战】测试收集bug，修改bug(五) 最终效果](https://www.bilibili.com/video/BV19ZAheLERa)
+
+### 进阶篇
+[【进阶篇一】实现多种消息格式](https://www.bilibili.com/video/BV1hjABe4EAz)
+
+[【进阶篇二】接入DeepSeek,与人工智能对话](https://www.bilibili.com/video/BV1KeAJeAE6C)
