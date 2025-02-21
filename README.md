@@ -81,24 +81,24 @@ https://github.com/lyming99/flutter_chat_app
 [联调接口(六) 好友请求实现详细讲解](https://www.bilibili.com/video/BV1qpA5eNEne?vd_source=09e984b9d215841cd344a501edf8c297)
 
 ### 第六天 搜索用户,添加好友
-[【即时通讯APP开发实战】搜索用户,添加好友(一) 总结归纳&任务安排](https://www.bilibili.com/video/BV1UJwXeoEKF)
+[搜索用户,添加好友(一) 总结归纳&任务安排](https://www.bilibili.com/video/BV1UJwXeoEKF)
 
-[【即时通讯APP开发实战】搜索用户,添加好友(二) 服务端接口实现](https://www.bilibili.com/video/BV17wwXegEzs)
+[搜索用户,添加好友(二) 服务端接口实现](https://www.bilibili.com/video/BV17wwXegEzs)
 
-[【即时通讯APP开发实战】搜索用户,添加好友(三) 客户端功能实现](https://www.bilibili.com/video/BV12twReFE1Y)
+[搜索用户,添加好友(三) 客户端功能实现](https://www.bilibili.com/video/BV12twReFE1Y)
 
 ### 第七天 测试收集bug，修改bug
-[【即时通讯APP开发实战】测试收集bug，修改bug(一) 任务安排](https://www.bilibili.com/video/BV1ztAaeREHz)
+[测试收集bug，修改bug(一) 任务安排](https://www.bilibili.com/video/BV1ztAaeREHz)
 
-[【即时通讯APP开发实战】测试收集bug，修改bug(二) 人工智能解决头像下载问题](https://www.bilibili.com/video/BV1z8AaeWEHS)
+[测试收集bug，修改bug(二) 人工智能解决头像下载问题](https://www.bilibili.com/video/BV1z8AaeWEHS)
 
-[【即时通讯APP开发实战】测试收集bug，修改bug(三) 解决信息未刷新问题](https://www.bilibili.com/video/BV1WnAae8Etd)
+[测试收集bug，修改bug(三) 解决信息未刷新问题](https://www.bilibili.com/video/BV1WnAae8Etd)
 
-[【即时通讯APP开发实战】测试收集bug，修改bug(四) 解决接受好友bug](https://www.bilibili.com/video/BV1awAaekEqF)
+[测试收集bug，修改bug(四) 解决接受好友bug](https://www.bilibili.com/video/BV1awAaekEqF)
 
-[【即时通讯APP开发实战】测试收集bug，修改bug(五) 最终效果](https://www.bilibili.com/video/BV19ZAheLERa)
+[测试收集bug，修改bug(五) 最终效果](https://www.bilibili.com/video/BV19ZAheLERa)
 
 ### 进阶篇
-[【进阶篇一】实现多种消息格式](https://www.bilibili.com/video/BV1hjABe4EAz)
+[实现多种消息格式](https://www.bilibili.com/video/BV1hjABe4EAz)
 
-[【进阶篇二】接入DeepSeek,与人工智能对话](https://www.bilibili.com/video/BV1KeAJeAE6C)
+[接入DeepSeek,与人工智能对话](https://www.bilibili.com/video/BV1KeAJeAE6C)
