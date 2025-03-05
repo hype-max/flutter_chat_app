@@ -10,7 +10,7 @@ import file_selector_macos
 import just_audio
 import path_provider_foundation
 import record_darwin
-import sqflite_darwin
+import sqflite
 import url_launcher_macos
 import video_player_avfoundation
 
